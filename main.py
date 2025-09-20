@@ -4,16 +4,32 @@ from __future__ import annotations
 
 import getpass
 from pathlib import Path
+from typing import Optional
 
 import requests
 import undetected_chromedriver as uc
+from webdriver_manager.chrome import ChromeDriverManager
 
 from modules.auth import login_to_nhentai
+from modules.colors import PINK, RESET
 from modules.downloader import download_manga
 from modules.favorites import get_favorites_codes
 
-PINK = "\033[38;2;255;192;203m"
-RESET = "\033[0m"
+
+def _create_browser(headless: bool = False) -> uc.Chrome:
+    """Instantiate an undetected Chrome driver managed by webdriver-manager."""
+
+    options = uc.ChromeOptions()
+    if headless:
+        # ``--headless=new`` keeps the modern headless mode for recent Chrome
+        options.add_argument("--headless=new")
+
+    driver_path = ChromeDriverManager().install()
+
+    return uc.Chrome(
+        options=options,
+        driver_executable_path=driver_path,
+    )
 
 
 def main() -> None:
@@ -23,12 +39,12 @@ def main() -> None:
     print()
 
     session = requests.Session()
-    driver = None
+    driver: Optional[uc.Chrome] = None
     codes: list[str] = []
-    logged_in_username: str | None = None
+    logged_in_username: Optional[str] = None
 
     try:
-        driver = uc.Chrome(version_main=133)
+        driver = _create_browser()
         logged_in_username = login_to_nhentai(driver, username, password)
 
         if not logged_in_username:

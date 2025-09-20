@@ -4,18 +4,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-PINK = "\033[38;2;255;192;203m"
-RESET = "\033[0m"
+from modules.colors import PINK, RESET
 
 
 def login_to_nhentai(driver, username, password):
-    """Log into nhentai with *driver* and return the account name.
-
-    The function keeps the manual CAPTCHA solving flow from the original
-    scripts, but returns the detected username on success so callers can
-    immediately use it for download directory management.  ``None`` is
-    returned if authentication failed or timed out.
-    """
+    """Log into nhentai with *driver* and return the account name."""
 
     print(f"[{PINK}System{RESET}] Navigating to login page")
     driver.get("https://nhentai.net/login/")

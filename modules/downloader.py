@@ -7,6 +7,9 @@ from pathlib import Path
 from typing import Dict, Iterable, List, Tuple
 
 import requests
+from PIL import Image
+
+from modules.colors import PINK, RESET
 
 try:  # Prefer an installed gallery-dl first
     from gallery_dl import exception, extractor
@@ -14,10 +17,6 @@ try:  # Prefer an installed gallery-dl first
 except ModuleNotFoundError:  # Fall back to the bundled minimal subset
     from .vendor.gallery_dl import exception, extractor
     from .vendor.gallery_dl.extractor.message import Message
-from PIL import Image
-
-PINK = "\033[38;2;255;192;203m"
-RESET = "\033[0m"
 
 INVALID_CHARS = '<>:"/\\|?*'
 
