@@ -7,8 +7,13 @@ from pathlib import Path
 from typing import Dict, Iterable, List, Tuple
 
 import requests
-from gallery_dl import exception, extractor
-from gallery_dl.extractor.message import Message
+
+try:  # Prefer an installed gallery-dl first
+    from gallery_dl import exception, extractor
+    from gallery_dl.extractor.message import Message
+except ModuleNotFoundError:  # Fall back to the bundled minimal subset
+    from .vendor.gallery_dl import exception, extractor
+    from .vendor.gallery_dl.extractor.message import Message
 from PIL import Image
 
 PINK = "\033[38;2;255;192;203m"

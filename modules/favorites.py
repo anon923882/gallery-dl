@@ -4,8 +4,12 @@ from __future__ import annotations
 
 from typing import Iterable, List
 
-from gallery_dl import exception, extractor
-from gallery_dl.extractor.message import Message
+try:  # Prefer an installed gallery-dl when available
+    from gallery_dl import exception, extractor
+    from gallery_dl.extractor.message import Message
+except ModuleNotFoundError:  # Provide a bundled fallback for standalone use
+    from .vendor.gallery_dl import exception, extractor
+    from .vendor.gallery_dl.extractor.message import Message
 
 PINK = "\033[38;2;255;192;203m"
 RESET = "\033[0m"
